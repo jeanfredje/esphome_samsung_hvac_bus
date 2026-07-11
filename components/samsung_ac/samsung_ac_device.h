@@ -561,8 +561,8 @@ class Samsung_AC_Device {
 
     if (_cur_power.value()) {
       if (_cur_mode.value() == Mode::Auto) {
-        climate->mode = climate::get_map_auto_to_heat_cool() ? climate::ClimateMode::CLIMATE_MODE_HEAT_COOL
-                                                             : climate::ClimateMode::CLIMATE_MODE_AUTO;
+        climate->mode =
+            this->get_map_auto_to_heat_cool() ? climate::CLIMATE_MODE_HEAT_COOL : climate::CLIMATE_MODE_AUTO;
       } else {
         auto opt = mode_to_climatemode(_cur_mode.value());
         if (opt.has_value()) climate->mode = opt.value();
