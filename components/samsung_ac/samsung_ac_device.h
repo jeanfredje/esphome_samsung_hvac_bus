@@ -318,16 +318,21 @@ class Samsung_AC_Device {
 
   void update_altmode(AltMode value) {
     if (climate != nullptr) {
+      // Samsung reports 0 when no alternative mode is active.
+      if (value == 0) {
+        return;
+      }
+
       auto supported = get_supported_alt_modes();
       auto mode = std::find_if(supported->begin(), supported->end(),
                                [&value](const AltModeDesc& x) { return x.value == value; });
+
       if (mode == supported->end()) {
         ESP_LOGW(TAG, "Unsupported alt_mode %d", value);
         return;
       }
 
       climate->apply_altmode_from_device(*mode);
-
       climate->publish_state();
     }
   }
